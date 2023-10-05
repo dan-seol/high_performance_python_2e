@@ -40,7 +40,7 @@ def run_experiment(num_iterations):
     for i in range(num_iterations):
         evolve(grid, 0.1, scratch)
         grid, scratch = scratch, grid
-    return time.time() - start
+    print(time.time() - start)
 
 
 if __name__ == "__main__":
