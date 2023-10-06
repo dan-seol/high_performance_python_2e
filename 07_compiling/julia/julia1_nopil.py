@@ -20,6 +20,16 @@ def calculate_z_serial_purepython(maxiter, zs, cs):
     return output
 
 
+def calculate_z_lazy_purepython(maxiter, zs, cs):
+    for z, c in zip(zs, cs):
+        n = 0
+        while n < maxiter and abs(z)< 2:
+            z *= z
+            z += c
+            n += 1
+        yield n
+
+
 def calc_pure_python(draw_output, desired_width, max_iterations):
     """Create a list of complex co-ordinates (zs) and complex parameters (cs), build Julia set and display"""
     x_step = (x2 - x1) / desired_width
@@ -47,10 +57,10 @@ def calc_pure_python(draw_output, desired_width, max_iterations):
     print("Length of x:", len(x))
     print("Total elements:", len(zs))
     start_time = time.time()
-    output = calculate_z_serial_purepython(max_iterations, zs, cs)
+    output = calculate_z_lazy_purepython(max_iterations, zs, cs)
     end_time = time.time()
     secs = end_time - start_time
-    print(calculate_z_serial_purepython.__name__ + " took", secs, "seconds")
+    print(calculate_z_lazy_purepython.__name__ + " took", secs, "seconds")
 
     assert sum(output) == 33219980  # this sum is expected for 1000^2 grid with 300 iterations
 

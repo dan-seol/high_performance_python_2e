@@ -1,6 +1,5 @@
 """Julia set generator without optional PIL-based image drawing"""
-import numba
-from numba import jit
+from numba import jit, prange
 import time
 import numpy as np
 
@@ -9,10 +8,10 @@ x1, x2, y1, y2 = -1.8, 1.8, -1.8, 1.8
 c_real, c_imag = -0.62772, -.42193
 
 
-@jit(nopython=True)
+@jit(nopython=True, parallel=True)
 def calculate_z(maxiter, zs, cs, output):
     """Calculate output list using Julia update rule"""
-    for i in range(len(zs)):
+    for i in prange(len(zs)):
         n = 0
         z = zs[i]
         c = cs[i]
